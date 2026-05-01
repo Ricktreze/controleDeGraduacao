@@ -12,6 +12,7 @@ app.use(cors({
 const PORT = 4015;
 const db = require("../db/db");
 var router = express.Router();
+app.use('/api', router);
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
