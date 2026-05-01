@@ -2,9 +2,8 @@
   "name": "controledegraduacao",
   "version": "0.0.0",
   "private": true,
-  "main": "routes/index.js",
   "scripts": {
-    "start": "node server"
+    "start": "node app"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
