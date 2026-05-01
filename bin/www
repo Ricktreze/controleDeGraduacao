@@ -53,6 +53,15 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
+app.get("/api/aluno", async (req, res) => {
+
+  const sort = { stamp: -1 };
+  const returnRouter = req.query.returnRouter;
+  const aluno = await db.find("aluno");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.json(aluno);
+});
+
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
