@@ -161,5 +161,5 @@ app.get("/api/graduacoes", async (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = {router,app};
 //app.listen(PORT, () => console.log(`O servidor está rodando na porta ${PORT}`));
