@@ -154,6 +154,13 @@ router.get("/api/graduacoes", async (req, res) => {
       }
     }
 
+  }else{
+     filtroDataGraduacao = {
+      dataProximaGraduacao: {
+        $gte: '20000101',
+        $lte: '20503112'
+      }
+    }
   }
   const graduacoes = await db.findGraduacao("aluno", filtroDataGraduacao);
   res.header('Access-Control-Allow-Origin', '*');
