@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express 16' });
 });
 
-router.get("/api/aluno", async (req, res) => {
+app.get("/api/aluno", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
@@ -27,7 +27,7 @@ router.get("/api/aluno", async (req, res) => {
   res.json(aluno);
 });
 
-router.get("/api/alunoNome", async (req, res) => {
+app.get("/api/alunoNome", async (req, res) => {
   const sort = { stamp: -1 };
   const nomealuno = req.query.nomealuno;
 
@@ -39,7 +39,7 @@ router.get("/api/alunoNome", async (req, res) => {
   res.json(aluno);
 });
 
-router.post("/api/aluno", async (req, res) => {
+app.post("/api/aluno", async (req, res) => {
   const alunoBody = req.body;
   const _id = req.query._id;
   res.header('Access-Control-Allow-Origin', '*');
@@ -62,7 +62,7 @@ router.post("/api/aluno", async (req, res) => {
   // res.redirect(returnRouter)
 });
 
-router.put("/api/aluno", async (req, res) => {
+app.put("/api/aluno", async (req, res) => {
   const alunoBody = req.body;
   res.header('Access-Control-Allow-Origin', '*');
 
@@ -85,13 +85,13 @@ router.put("/api/aluno", async (req, res) => {
   // res.redirect(returnRouter)
 });
 
-router.delete("/api/aluno", async (req, res) => {
+app.delete("/api/aluno", async (req, res) => {
   const _id = req.query.id;
   db.remove(_id, "aluno")
 });
 
 // presença
-router.put("/api/presenca", async (req, res) => {
+app.put("/api/presenca", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   const presencaBody = req.body;
   const idAluno = req.query._id;
@@ -107,7 +107,7 @@ router.put("/api/presenca", async (req, res) => {
 
 });
 
-router.get("/api/presenca", async (req, res) => {
+app.get("/api/presenca", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
@@ -125,7 +125,7 @@ router.get("/api/presenca", async (req, res) => {
   res.json(presenca);
 });
 
-router.get("/api/graduacoes", async (req, res) => {
+app.get("/api/graduacoes", async (req, res) => {
 
   const sort = { stamp: -1 };
   const dataDe = req.query.dataDe;
