@@ -9,10 +9,9 @@ app.use(express.json());
 app.use(cors({
   origin: '*' // Replace with your React app's URL
 }));
-const PORT = process.env.PORT || '4015'
+const PORT = 10045;
 const db = require("../db/db");
 var router = express.Router();
-app.use('/', router);
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
