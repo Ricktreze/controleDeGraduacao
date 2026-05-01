@@ -22,7 +22,7 @@ router.get('/perfil', (req, res) => {
   res.send('Perfil do usuário');
 });
 
-app.get("/api/aluno", async (req, res) => {
+router.get("/api/aluno", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
