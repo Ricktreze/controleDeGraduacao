@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express 16' });
 });
 
-router.get("/api/aluno", async (req, res) => {
+app.get("/api/aluno", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
