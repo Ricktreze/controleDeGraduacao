@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors({
   origin: '*' // Replace with your React app's URL
 }));
-const PORT = 4015;
+const PORT = process.env.PORT || '4015'
 const db = require("../db/db");
 var router = express.Router();
 app.use('/', router);
@@ -163,4 +163,4 @@ app.get("/api/graduacoes", async (req, res) => {
 
 
 module.exports = router;
-//app.listen(PORT, () => console.log(`O servidor está rodando na porta ${PORT}`));
+app.listen(PORT, () => console.log(`O servidor está rodando na porta ${PORT}`));
