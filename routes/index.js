@@ -18,10 +18,6 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express 16' });
 });
 
-app.get("/", async (req, res) => {
-  res.send("teste");
-});
-
 app.get("/api/aluno", async (req, res) => {
 
   const sort = { stamp: -1 };
