@@ -18,6 +18,10 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express 16' });
 });
 
+router.get('/perfil', (req, res) => {
+  res.send('Perfil do usuário');
+});
+
 app.get("/api/aluno", async (req, res) => {
 
   const sort = { stamp: -1 };
