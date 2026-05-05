@@ -13,6 +13,10 @@ const PORT = 4015;
 const db = require("../db/db");
 var router = express.Router();
 
+router.use(cors({
+  origin: '*' // Replace with your React app's URL
+}));
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express 16' });
