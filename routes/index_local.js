@@ -125,10 +125,10 @@ app.get("/api/presenca", async (req, res) => {
       objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte } }
       presenca = await db.find("presenca", objPersenca);
     } else if (!dataDe && nomeAluno){
-      objPersenca = { dataPresenca: { $regex: nomeAluno } }
+      objPersenca = { nomeAluno: { $regex: nomeAluno } }
       presenca = await db.find("presenca", objPersenca);
     } else if (!dataDe && nomeAluno){
-       objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte, $regex: nomeAluno  } }
+       objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte  }, nomeAluno:{$regex: nomeAluno}}
        presenca = await db.find("presenca", objPersenca);
     }
 
