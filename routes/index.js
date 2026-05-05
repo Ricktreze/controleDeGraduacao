@@ -117,12 +117,20 @@ router.get("/api/presenca", async (req, res) => {
   const returnRouter = req.query.returnRouter;
   const dataDe = req.query.presencaDe;
   const dataAte = req.query.presencaAte;
-  const objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte } }
+  const nomeAluno = req.query.nomeAluno;
+  var  objPersenca = null
   var presenca = null
-  if (!dataAte) {
+  if (!dataAte && !nomeAluno) {
     presenca = await db.find("presenca");
-  } else {
+  } else if (dataDe && !nomeAluno) {
+    objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte } }
     presenca = await db.find("presenca", objPersenca);
+  } else if (!dataDe && nomeAluno){
+    objPersenca = { nomeAluno: { $regex: nomeAluno } }
+    presenca = await db.find("presenca", objPersenca);
+  } else if (!dataDe && nomeAluno){
+     objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte  }, nomeAluno:{$regex: nomeAluno}}
+     presenca = await db.find("presenca", objPersenca);
   }
 
   res.header('Access-Control-Allow-Origin', '*');
