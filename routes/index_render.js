@@ -16,12 +16,13 @@ var router = express.Router();
 router.use(cors({
   origin: '*' // Replace with your React app's URL
 }));
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express 16' });
 });
 
-app.get("/api/aluno", async (req, res) => {
+router.get("/api/aluno", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
@@ -30,7 +31,7 @@ app.get("/api/aluno", async (req, res) => {
   res.json(aluno);
 });
 
-app.get("/api/alunoNome", async (req, res) => {
+router.get("/api/alunoNome", async (req, res) => {
   const sort = { stamp: -1 };
   const nomealuno = req.query.nomealuno;
 
@@ -42,7 +43,7 @@ app.get("/api/alunoNome", async (req, res) => {
   res.json(aluno);
 });
 
-app.post("/api/aluno", async (req, res) => {
+router.post("/api/aluno", async (req, res) => {
   const alunoBody = req.body;
   const _id = req.query._id;
   res.header('Access-Control-Allow-Origin', '*');
@@ -65,7 +66,7 @@ app.post("/api/aluno", async (req, res) => {
   // res.redirect(returnRouter)
 });
 
-app.put("/api/aluno", async (req, res) => {
+router.put("/api/aluno", async (req, res) => {
   const alunoBody = req.body;
   res.header('Access-Control-Allow-Origin', '*');
 
@@ -88,13 +89,13 @@ app.put("/api/aluno", async (req, res) => {
   // res.redirect(returnRouter)
 });
 
-app.delete("/api/aluno", async (req, res) => {
+router.delete("/api/aluno", async (req, res) => {
   const _id = req.query.id;
   db.remove(_id, "aluno")
 });
 
 // presença
-app.put("/api/presenca", async (req, res) => {
+router.put("/api/presenca", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   const presencaBody = req.body;
   const idAluno = req.query._id;
@@ -110,33 +111,33 @@ app.put("/api/presenca", async (req, res) => {
 
 });
 
-app.get("/api/presenca", async (req, res) => {
+router.get("/api/presenca", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
   const dataDe = req.query.presencaDe;
-   const dataAte = req.query.presencaAte;
-    const nomeAluno = req.query.nomeAluno;
-    var  objPersenca = null
-    var presenca = null
-    if (!dataAte && !nomeAluno) {
-      presenca = await db.find("presenca");
-    } else if (dataDe && !nomeAluno) {
-      objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte } }
-      presenca = await db.find("presenca", objPersenca);
-    } else if (!dataDe && nomeAluno){
-      objPersenca = { nomeAluno: { $regex: nomeAluno } }
-      presenca = await db.find("presenca", objPersenca);
-    } else if (!dataDe && nomeAluno){
-       objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte  }, nomeAluno:{$regex: nomeAluno}}
-       presenca = await db.find("presenca", objPersenca);
-    }
+  const dataAte = req.query.presencaAte;
+  const nomeAluno = req.query.nomeAluno;
+  var  objPersenca = null
+  var presenca = null
+  if (!dataAte && !nomeAluno) {
+    presenca = await db.find("presenca");
+  } else if (dataDe && !nomeAluno) {
+    objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte } }
+    presenca = await db.find("presenca", objPersenca);
+  } else if (!dataDe && nomeAluno){
+    objPersenca = { nomeAluno: { $regex: nomeAluno, $options: 'i' } }
+    presenca = await db.find("presenca", objPersenca);
+  } else if (!dataDe && nomeAluno){
+     objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte  }, nomeAluno:{$regex: nomeAluno, $options: 'i'}}
+     presenca = await db.find("presenca", objPersenca);
+  }
 
   res.header('Access-Control-Allow-Origin', '*');
   res.json(presenca);
 });
 
-app.get("/api/graduacoes", async (req, res) => {
+router.get("/api/graduacoes", async (req, res) => {
 
   const sort = { stamp: -1 };
   const dataDe = req.query.dataDe;
@@ -164,8 +165,8 @@ app.get("/api/graduacoes", async (req, res) => {
         $lte: dataAte
       }
     }
-    
-}else{
+
+  }else{
      filtroDataGraduacao = {
       dataProximaGraduacao: {
         $gte: '20000101',

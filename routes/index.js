@@ -16,13 +16,12 @@ var router = express.Router();
 router.use(cors({
   origin: '*' // Replace with your React app's URL
 }));
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express 16' });
 });
 
-router.get("/api/aluno", async (req, res) => {
+app.get("/api/aluno", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
@@ -31,7 +30,16 @@ router.get("/api/aluno", async (req, res) => {
   res.json(aluno);
 });
 
-router.get("/api/alunoNome", async (req, res) => {
+app.get("/api/alunoId", async (req, res) => {
+
+  const sort = { stamp: -1 };
+  const id = req.query.id;
+  const aluno = await db.find("aluno",{_id: new ObjectId(id) });
+  res.header('Access-Control-Allow-Origin', '*');
+  res.json(aluno);
+});
+
+app.get("/api/alunoNome", async (req, res) => {
   const sort = { stamp: -1 };
   const nomealuno = req.query.nomealuno;
 
@@ -43,7 +51,7 @@ router.get("/api/alunoNome", async (req, res) => {
   res.json(aluno);
 });
 
-router.post("/api/aluno", async (req, res) => {
+app.post("/api/aluno", async (req, res) => {
   const alunoBody = req.body;
   const _id = req.query._id;
   res.header('Access-Control-Allow-Origin', '*');
@@ -66,7 +74,7 @@ router.post("/api/aluno", async (req, res) => {
   // res.redirect(returnRouter)
 });
 
-router.put("/api/aluno", async (req, res) => {
+app.put("/api/aluno", async (req, res) => {
   const alunoBody = req.body;
   res.header('Access-Control-Allow-Origin', '*');
 
@@ -89,13 +97,13 @@ router.put("/api/aluno", async (req, res) => {
   // res.redirect(returnRouter)
 });
 
-router.delete("/api/aluno", async (req, res) => {
+app.delete("/api/aluno", async (req, res) => {
   const _id = req.query.id;
   db.remove(_id, "aluno")
 });
 
 // presença
-router.put("/api/presenca", async (req, res) => {
+app.put("/api/presenca", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   const presencaBody = req.body;
   const idAluno = req.query._id;
@@ -111,33 +119,33 @@ router.put("/api/presenca", async (req, res) => {
 
 });
 
-router.get("/api/presenca", async (req, res) => {
+app.get("/api/presenca", async (req, res) => {
 
   const sort = { stamp: -1 };
   const returnRouter = req.query.returnRouter;
   const dataDe = req.query.presencaDe;
-  const dataAte = req.query.presencaAte;
-  const nomeAluno = req.query.nomeAluno;
-  var  objPersenca = null
-  var presenca = null
-  if (!dataAte && !nomeAluno) {
-    presenca = await db.find("presenca");
-  } else if (dataDe && !nomeAluno) {
-    objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte } }
-    presenca = await db.find("presenca", objPersenca);
-  } else if (!dataDe && nomeAluno){
-    objPersenca = { nomeAluno: { $regex: nomeAluno, $options: 'i' } }
-    presenca = await db.find("presenca", objPersenca);
-  } else if (!dataDe && nomeAluno){
-     objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte  }, nomeAluno:{$regex: nomeAluno, $options: 'i'}}
-     presenca = await db.find("presenca", objPersenca);
-  }
+   const dataAte = req.query.presencaAte;
+    const nomeAluno = req.query.nomeAluno;
+    var  objPersenca = null
+    var presenca = null
+    if (!dataAte && !nomeAluno) {
+      presenca = await db.find("presenca");
+    } else if (dataDe && !nomeAluno) {
+      objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte } }
+      presenca = await db.find("presenca", objPersenca);
+    } else if (!dataDe && nomeAluno){
+      objPersenca = { nomeAluno: { $regex: nomeAluno, $options: 'i' } }
+      presenca = await db.find("presenca", objPersenca);
+    } else if (!dataDe && nomeAluno){
+       objPersenca = { dataPresenca: { $gte: dataDe, $lte: dataAte  }, nomeAluno:{$regex: nomeAluno, $options: 'i'}}
+       presenca = await db.find("presenca", objPersenca);
+    }
 
   res.header('Access-Control-Allow-Origin', '*');
   res.json(presenca);
 });
 
-router.get("/api/graduacoes", async (req, res) => {
+app.get("/api/graduacoes", async (req, res) => {
 
   const sort = { stamp: -1 };
   const dataDe = req.query.dataDe;
@@ -165,8 +173,8 @@ router.get("/api/graduacoes", async (req, res) => {
         $lte: dataAte
       }
     }
-
-  }else{
+    
+}else{
      filtroDataGraduacao = {
       dataProximaGraduacao: {
         $gte: '20000101',
