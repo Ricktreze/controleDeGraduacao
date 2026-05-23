@@ -106,7 +106,7 @@ app.delete("/api/aluno", async (req, res) => {
 app.put("/api/presenca", async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   const presencaBody = req.body;
-  const idAluno = req.query._id;
+  const idAluno = req.body.idAluno;
   const objPrices = {
     nomeAluno: presencaBody.nomeAluno,
     dataPresenca: presencaBody.dataPresenca.substring(0, 10),
